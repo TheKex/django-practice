@@ -44,6 +44,7 @@ def omlet(request):
     }
     return render(request, "calculator/index.html", context)
 
+
 def pasta(request):
     servings = int(request.GET.get("servings", 1))
     context = {
