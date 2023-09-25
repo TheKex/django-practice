@@ -52,10 +52,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'netology_import_phones',
-        'HOST': '217.66.21.140',
+        'HOST': '192.168.80.119',
         'PORT': '5432',
         'USER': 'postgres',
-        'PASSWORD': '3nwkNWPE!',
+        'PASSWORD': '3nwkNWPe',
     }
 }
 
