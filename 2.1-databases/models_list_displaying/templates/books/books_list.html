@@ -18,6 +18,15 @@
             </div>
             {% endfor %}
         </div>
-        {% if
+        {% if prev_date %}
+            <a href="{% url 'books_date' prev_date %}">
+                <h4>< {{ prev_date }}</h4>
+            </a>
+        {% endif %}
+        {% if next_date %}
+            <a href="{% url 'books_date' next_date %}">
+                <h4>{{ next_date }} ></h4>
+            </a>
+        {% endif %}
     </div>
 {% endblock %}
