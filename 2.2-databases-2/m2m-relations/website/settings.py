@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'articles.apps.ArticlesConfig'
+    'articles.apps.ArticlesConfig',
+    "debug_toolbar",
 ]
 
 MIDDLEWARE = [
@@ -48,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -77,8 +79,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'netology_m2m_relations',
-        'HOST': '127.0.0.1',
+        'HOST': os.getenv('POSTGRES_HOST'),
         'PORT': '5432',
+        'USER': 'postgres',
+        'PASSWORD': os.getenv('POSTGRES_PASS'),
     }
 }
 
@@ -117,6 +121,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
 
 STATIC_URL = '/static/'
 

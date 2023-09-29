@@ -11,7 +11,7 @@ def students_list(request):
     # https://docs.djangoproject.com/en/2.2/ref/models/querysets/#django.db.models.query.QuerySet.order_by
     ordering = 'group'
 
-    object_list = Student.objects.all().prefetch_related('teachers').order_by("group")
+    object_list = Student.objects.all().prefetch_related('teachers').select_related("tag").order_by("group")
 
     context = {
         'object_list': object_list,
