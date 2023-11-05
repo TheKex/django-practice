@@ -12,14 +12,40 @@ class SensorDetailView(RetrieveAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorDetailSerializer
 
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance=instance,
+            data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 class SensorView(ListAPIView):
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
 
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
 class MeasurementView(APIView):
     def get(self, request):
-        mesurements = Measurement.objects.all()
-        ser = MeasurementsSerializer(mesurements, many=True)
+        measurement = Measurement.objects.all()
+        ser = MeasurementsSerializer(measurement, many=True)
         return Response(ser.data)
+
+    def post(self, request):
+        instance = Measurement()
+        serializer = MeasurementsSerializer(
+            instance=instance,
+            data=request.data
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
