@@ -17,8 +17,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 from rest_framework.routers import DefaultRouter
+from advertisements import views as advert_views
 
 router = DefaultRouter()
+router.register('advertisements', advert_views.AdvertisementViewSet, basename='advertisements')
 # TODO: подключите `AdvertisementViewSet`
 
 
