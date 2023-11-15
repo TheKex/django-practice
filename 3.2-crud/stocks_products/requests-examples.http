@@ -1,13 +1,11 @@
-# примеры API-запросов
-
-@baseUrl = http://localhost:8000/api/v1
+###
 
 # создание продукта
 POST {{baseUrl}}/products/
 Content-Type: application/json
 
 {
-  "title": "Помидор",
+  "title": "Помидор2",
   "description": "Лучшие помидоры на рынке"
 }
 
@@ -20,10 +18,21 @@ Content-Type: application/json
 ###
 
 # обновление продукта
+PATCH {{baseUrl}}/products/5/
+Content-Type: application/json
+
+{
+  "description": "Самые сочные и ароматные помидорки"
+}
+
+###
+
+# обновление продукта
 PATCH {{baseUrl}}/products/1/
 Content-Type: application/json
 
 {
+  "title": "Помидорки",
   "description": "Самые сочные и ароматные помидорки"
 }
 
@@ -46,7 +55,7 @@ POST {{baseUrl}}/stocks/
 Content-Type: application/json
 
 {
-  "address": "мой адрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru3",
+  "address": "мой адрес не дом и не улица, мой адрес сегодня такой: www.ленинград-спб.ru1",
   "positions": [
     {
       "product": 2,
@@ -87,3 +96,51 @@ Content-Type: application/json
 # поиск складов, где есть определенный продукт
 GET {{baseUrl}}/stocks/?products=2
 Content-Type: application/json
+
+###
+
+GET {{baseUrl}}/stocks/10/
+Content-Type: application/json
+
+###
+
+PATCH {{baseUrl}}/stocks/10/
+Content-Type: application/json
+
+{
+  "id": 10,
+  "address": "Another one",
+  "positions": [
+    {
+      "product": 2,
+      "quantity": 111,
+      "price": 130.80
+    },
+    {
+      "product": 3,
+      "quantity": 1,
+      "price": 145
+    }
+  ]
+}
+
+###
+
+PATCH {{baseUrl}}/stocks/10/
+Content-Type: application/json
+
+{
+  "id": 7,
+  "positions": [
+    {
+      "product": 5,
+      "quantity": 228,
+      "price": 322.80
+    }
+  ]
+}
+###
+
+GET {{baseUrl}}/stocks/?search=помидор
+Content-Type: application/json; charset=utf-8
+###

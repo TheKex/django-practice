@@ -5,37 +5,61 @@
 GET {{baseUrl}}/advertisements/
 Content-Type: application/json
 
+
 ###
 
 # создание объявления
-POST {{baseUrl}}/advertisements/
+POST http://127.0.0.1:8000/api/advertisements/
 Content-Type: application/json
 Authorization: Token 8bd3279ecd44a698932c9ddd7014a7c1412046bc
 
 {
-  "title": "Шкаф IKEA",
-  "description": "Срочно"
-}
-
-###
-
-# попытка поменять объявление
-PATCH {{baseUrl}}/advertisements/1/
-Content-Type: application/json
-Authorization: Token 8bd3279ecd44a698932c9ddd7014a7c1412046bc
-
-{
+  "title": "Шкаф IKEA 13",
+  "description": "Biba",
   "status": "CLOSED"
 }
 
 ###
 
+# создание объявления
+POST {{baseUrl}}/advertisements/
+Authorization: Token 8bd3279ecd44a698932c9ddd7014a7c1412046bc
+Content-Type: application/json
+
+{
+  "title": "Стул IKEA",
+  "description": "Обычно"
+}
+
+###
+
+# попытка поменять объявление
+PATCH {{baseUrl}}/advertisements/18/
+Content-Type: application/json
+Authorization: Token 8bd3279ecd44a698932c9ddd7014a7c1412046bc
+
+{
+  "status": "OPEN"
+}
+
+###
+
+DELETE {{baseUrl}}/advertisements/4/
+Authorization: Token 8bd3279ecd44a698932c9ddd7014a7c1412046bc
+###
+
+DELETE {{baseUrl}}/advertisements/3/
+Authorization: Token 152ba3eecf9815606d0c31614a3a80168e2f745b
+
+
+###
+
 # фильтрация по создателю
-GET {{baseUrl}}/advertisements/?creator=3
+GET {{baseUrl}}/advertisements/?creator=1
 Content-Type: application/json
 
 ###
 
 # фильтрация по дате
-GET {{baseUrl}}/advertisements/?created_at_before=2020-10-01
+GET {{baseUrl}}/advertisements/?created_at_before=2024-10-01
 Content-Type: application/json
