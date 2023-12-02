@@ -1,6 +1,6 @@
 import pytest
 from model_bakery import baker
-from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED
+from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from rest_framework.test import APIClient
 
 from students.models import Student, Course
@@ -15,6 +15,7 @@ def client():
 def students_factory():
     def factory(*args, **kwargs):
         return baker.make(Student, *args, **kwargs)
+
     return factory
 
 
@@ -22,12 +23,17 @@ def students_factory():
 def courses_factory():
     def factory(*args, **kwargs):
         return baker.make(Course, make_m2m=True, *args, **kwargs)
+
     return factory
 
 
+@pytest.fixture
+def course(courses_factory):
+    return courses_factory(_quantity=1)[0]
+
+
 @pytest.mark.django_db
-def test_get_course(client, courses_factory):
-    course = courses_factory(_quantity=1)[0]
+def test_get_course(client, course):
     resp = client.get(f"/api/v1/courses/{course.id}/")
     assert resp.status_code == HTTP_200_OK
     resp_course_name = resp.json().get('name')
@@ -74,11 +80,11 @@ def test_create_course(client, students_factory):
     resp = client.post("/api/v1/courses/", data=course, format="json")
     assert resp.status_code == HTTP_201_CREATED
     assert resp.json().get('name') == course['name']
+    assert len(resp.json().get('students')) == len(students)
 
 
 @pytest.mark.django_db
-def test_update_course(client, courses_factory, students_factory):
-    course = courses_factory(_quantity=1)[0]
+def test_update_course(client, course, students_factory):
     student = students_factory(_quantity=1)[0]
     update_course_data = {
         "name": "new name",
@@ -93,4 +99,9 @@ def test_update_course(client, courses_factory, students_factory):
     assert resp_json['students'][0] == student.id
 
 
-
+@pytest.mark.django_db
+def test_delete_course(client, course):
+    resp = client.delete(f'/api/v1/courses/{course.id}/')
+    assert resp.status_code == HTTP_204_NO_CONTENT
+    db_courses_count = Course.objects.filter(id=course.id).count()
+    assert db_courses_count == 0
